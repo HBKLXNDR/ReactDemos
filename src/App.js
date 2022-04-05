@@ -5,7 +5,7 @@ import Comments from "./components/Comments";
 
 function App() {
     return (
-        <div>
+        <div className={"wrap"}>
             <Users/>
             <hr/>
             <Posts/>
