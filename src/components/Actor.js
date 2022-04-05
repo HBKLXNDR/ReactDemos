@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const Actor = ({name, img}) => {
     // const {name, img} = props;
     return (
