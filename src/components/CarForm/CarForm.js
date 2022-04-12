@@ -1,33 +1,34 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 
 import {useForm} from "react-hook-form";
 import {carService} from "../../services";
 import {joiResolver} from "@hookform/resolvers/joi";
 import {carValidator} from "../../validators";
 
-const CarForm = ({setNewCar, carForUpdate}) => {
+const CarForm = ({setNewCar, carForUpdate, setUpdatedCar, setCarForUpdate}) => {
     // const [formError, setFormError] = useState({});
-    const {register, reset, handleSubmit, formState: {errors}, setValue} = useForm({
+    const {register, reset, handleSubmit, formState: {errors, isValid}, setValue} = useForm({
         resolver: joiResolver(carValidator),
         mode: "onTouched"
     });
 
-    useEffect(()=>{
-       if (carForUpdate){
-           const {model, price, year} = carForUpdate
+    useEffect(() => {
+        if (carForUpdate) {
+            const {model, price, year} = carForUpdate
             setValue("model", model)
             setValue("price", price)
             setValue("year", year)
-       }
+        }
 
-    },[carForUpdate])
+    }, [carForUpdate])
 
     const submit = async (car) => {
         try {
-            if (carForUpdate){
+            if (carForUpdate) {
                 const {data} = await carService.updateById(carForUpdate.id, car);
-                setNewCar(data);
-            } else{
+                setUpdatedCar(data);
+                setCarForUpdate(false);
+            } else {
                 const {data} = await carService.create(car);
                 setNewCar(data);
             }
@@ -37,6 +38,11 @@ const CarForm = ({setNewCar, carForUpdate}) => {
             // setFormError(e.response.data)
         }
     }
+
+    const clearForm = () => {
+        setCarForUpdate(false);
+        reset()
+    }
     return (
         <form onSubmit={handleSubmit(submit)}>
             <div><label>Model: <input type="text" {...register("model")}/></label></div>
@@ -45,7 +51,11 @@ const CarForm = ({setNewCar, carForUpdate}) => {
             {errors.price && <span>{errors.price.message}</span>}
             <div><label>Year: <input type="text" {...register("year", {valueAsNumber: true})} /></label></div>
             {errors.year && <span>{errors.year.message}</span>}
-            <button>Save</button>
+            <button disabled={!isValid}>{carForUpdate ? "Update" : "Create"}</button>
+            {
+                !!carForUpdate && <button onClick={clearForm}>Clear form</button>
+
+            }
         </form>
     );
 };
