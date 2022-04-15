@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {userService} from "../../services/user.service";
-import {User} from "../../components";
+
+import {Loading, User} from "../../components";
+import css from "./UsersPage.module.css"
+import {userService} from "../../services";
+import {Outlet} from "react-router-dom";
 
 const UsersPage = () => {
 
@@ -11,12 +14,15 @@ const UsersPage = () => {
     }, [])
 
     return (
-        <div>
-            {
-                users
-                    ? users.map((user) => <User key={user.id} user={user}/>)
-                    : "Loading..."
-            }
+        <div className={css.wrap}>
+            <div className={css.users}>
+                {
+                    users
+                        ? users.map((user) => <User key={user.id} user={user}/>)
+                        : <Loading/>
+                }
+            </div>
+            <Outlet/>
         </div>
     );
 };

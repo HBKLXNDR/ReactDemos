@@ -1,9 +1,11 @@
 import React from 'react';
+import {Button} from "../Button/Button";
 
-const User = () => {
+const User = ({user}) => {
+    const {id, name} = user;
     return (
         <div>
-            User
+            {id} - {name} <Button state={user} to={id.toString()}>Show info</Button>
         </div>
     );
 };

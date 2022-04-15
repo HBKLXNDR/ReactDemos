@@ -1,0 +1,6 @@
+.wrap{
+    display: flex;
+}
+.users{
+    min-width: 350px;
+}
