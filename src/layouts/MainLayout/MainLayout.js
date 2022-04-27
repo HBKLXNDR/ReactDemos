@@ -1,9 +1,13 @@
 import React from 'react';
-import {Link, Outlet} from "react-router-dom";
+import {Link, Outlet, useNavigate} from "react-router-dom";
 
 import css from "./MainLayout.module.css"
+import {useAuth} from "../../hooks";
 
 const MainLayout = () => {
+    const navigate = useNavigate()
+    const {user, logOut} = useAuth();
+
     return (
         <div>
             <div className={css.header}>
@@ -11,6 +15,8 @@ const MainLayout = () => {
                 <Link to="/users">Users</Link>
                 <Link to="/posts">Posts</Link>
                 <Link to="/about">About</Link>
+                {user && <h1>{user}
+                    <button onClick={()=>logOut(()=>navigate("/"))}>LogOut</button></h1>}
             </div>
             <hr/>
             <Outlet/>
