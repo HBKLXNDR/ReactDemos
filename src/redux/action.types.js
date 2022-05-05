@@ -1,0 +1,6 @@
+const LOAD_USERS = "LOAD_USERS";
+const LOAD_POSTS = "LOAD_POSTS";
+
+
+
+export {LOAD_USERS, LOAD_POSTS}
