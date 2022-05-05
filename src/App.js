@@ -1,9 +1,12 @@
 import React from 'react';
+import {Counter} from "./components";
 
 
 const App = () => {
     return (
-        App
+        <div>
+            <Counter/>
+        </div>
     );
 };
 
