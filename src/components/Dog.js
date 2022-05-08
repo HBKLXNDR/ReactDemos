@@ -8,6 +8,7 @@ const Dog = ({dog}) => {
     return (
         <div>
             {dog.name}
+            <button onClick={()=> dispatch(actionsDog.setDogForUpdate({dog}))}>update</button>
             <button onClick={()=> dispatch(actionsDog.deleteDog({id:dog.id}))}>delete</button>
         </div>
     );
