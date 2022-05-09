@@ -4,7 +4,8 @@ import {carService} from "../../services";
 let initialState = {
     cars: [],
     status: null,
-    formErrors: {}
+    formErrors: {},
+    carForUpdate: null
 };
 
 const getAll = createAsyncThunk(
@@ -14,13 +15,33 @@ const getAll = createAsyncThunk(
         return data
     }
 );
+const deleteById = createAsyncThunk(
+    "deleteById",
+    async ({id}, {dispatch, rejectWithValue}) => {
+        try {
+            await carService.deleteById(id);
+            dispatch(deleteCarById({id}))
+        } catch (e) {
+            return rejectWithValue({status: e.message})
+        }
+    }
+);
+const updateById = createAsyncThunk(
+    "updateById",
+    async ({id, car}, {dispatch, rejectWithValue}) => {
+        try {
+            await carService.updateById(id, car);
+            dispatch(updateCarById({id, car}))
+        } catch (e) {
+            return rejectWithValue({status: e.message})
+        }
+    }
+);
 
 const createAsync = createAsyncThunk(
     "create",
-    async ({car}, {getState, dispatch, rejectWithValue}) => {
+    async ({car}, {dispatch, rejectWithValue}) => {
         try {
-            const store = getState();
-            console.log(store);
             const {data} = await carService.create(car)
             dispatch(create({car: data}))
         } catch (e) {
@@ -36,7 +57,21 @@ const carSlice = createSlice({
     reducers: {
         create: (state, action) => {
             state.cars.push(action.payload.car)
+        },
+
+        deleteCarById: (state, action) => {
+            const index = state.cars.findIndex(car => car.id === action.payload.id);
+            state.cars.splice(index, 1)
+        },
+        updateCarById: (state, action) => {
+            const index = state.cars.findIndex(car => car.id === action.payload.id);
+            state.cars[index] = {...state.cars[index], ...action.payload.car};
+            state.carForUpdate = false;
+        },
+        setCarForUpdate: (state, action) => {
+            state.carForUpdate = action.payload.car
         }
+
     },
     extraReducers: {
         [getAll.pending]: (state, action) => {
@@ -60,10 +95,14 @@ const carSlice = createSlice({
     }
 });
 
-const {reducer: carReducer, actions: {create}} = carSlice;
+const {reducer: carReducer, actions: {create, deleteCarById, updateCarById, setCarForUpdate}} = carSlice;
 
 const carActions = {
-    getAll, createAsync
+    getAll,
+    createAsync,
+    deleteById,
+    updateById,
+    setCarForUpdate,
 }
 
 export {
