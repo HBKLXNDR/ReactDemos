@@ -10,24 +10,6 @@ const Cars = ({newCar, setCarForUpdate, updatedCar}) => {
         cars && carService.getAll().then(({data}) => setCars(data))
     }, [newCar, updatedCar, delCars])
 
-    // useEffect(() => {
-    //     if (newCar) {
-    //         setCars(prevState => [...prevState, newCar])
-    //         if (delCars) {
-    //             setCars(cars.filter(car => car.id !== delCars))
-    //         }
-    //     }
-    // }, [newCar, delCars])
-    //
-    //
-    // useEffect(() => {
-    //     if (updatedCar) {
-    //         const car = cars.find(car => car.id === updatedCar.id);
-    //         Object.assign(car, updatedCar);
-    //         setCars([...cars])
-    //     }
-    // }, [updatedCar])
-
 
     return (
         <div>
@@ -37,3 +19,21 @@ const Cars = ({newCar, setCarForUpdate, updatedCar}) => {
 };
 
 export {Cars};
+
+// useEffect(() => {
+//     if (newCar) {
+//         setCars(prevState => [...prevState, newCar])
+//         if (delCars) {
+//             setCars(cars.filter(car => car.id !== delCars))
+//         }
+//     }
+// }, [newCar, delCars])
+//
+//
+// useEffect(() => {
+//     if (updatedCar) {
+//         const car = cars.find(car => car.id === updatedCar.id);
+//         Object.assign(car, updatedCar);
+//         setCars([...cars])
+//     }
+// }, [updatedCar])
