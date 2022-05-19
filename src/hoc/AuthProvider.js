@@ -12,7 +12,7 @@ const AuthProvider = ({children}) => {
         setUser(newUser);
         cb();
     }
-    const logOut = (cb)=>{
+    const logOut = (cb) => {
         setUser(null);
         cb();
     }
@@ -21,7 +21,7 @@ const AuthProvider = ({children}) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {children }
+            {children}
         </AuthContext.Provider>
     );
 };
