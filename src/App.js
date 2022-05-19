@@ -4,7 +4,7 @@ import {Route,Routes,Navigate} from "react-router-dom";
 import {MainLayout} from "./layouts";
 import {AboutPage, HomePage, LoginPage, NotFoundPage, PostsPage, SinglePostPage, UsersPage} from "./pages";
 import {SingleUserPage} from "./pages/SingleUserPage/SingleUserPage";
-import {RequiredAuth} from "./hoc/RequiredAuth";
+import {RequiredAuth} from "./hoc";
 
 const App = () => {
     return (
